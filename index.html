@@ -1082,6 +1082,40 @@
 
         sendBtn.addEventListener('click', handleSendMessage);
         chatInput.addEventListener('keydown', (e) => { if (e.key === 'Enter') { e.preventDefault(); handleSendMessage(); } });
+    
+        // --- FIXES ---
+        // Fix for Digital Library
+        document.querySelectorAll('.faculty-selector').forEach(selector => {
+            selector.addEventListener('click', () => {
+                const targetId = selector.dataset.target;
+                document.querySelectorAll('.doc-content').forEach(content => content.classList.add('hidden'));
+                document.getElementById(targetId)?.classList.remove('hidden');
+                document.querySelectorAll('.faculty-selector').forEach(btn => btn.classList.remove('active'));
+                selector.classList.add('active');
+            });
+        });
+
+        // Fix for Product Filter
+        document.querySelectorAll('.filter-btn').forEach(button => {
+            button.addEventListener('click', () => {
+                const category = button.dataset.category;
+                document.querySelectorAll('.filter-btn').forEach(btn => {
+                    btn.classList.remove('bg-sky-500', 'text-white');
+                    btn.classList.add('bg-slate-700', 'text-slate-300');
+                });
+                button.classList.add('bg-sky-500', 'text-white');
+                button.classList.remove('bg-slate-700', 'text-slate-300');
+                
+                document.querySelectorAll('.product-item').forEach(item => {
+                    if (category === 'all' || item.dataset.category === category) {
+                        item.classList.remove('hidden');
+                    } else {
+                        item.classList.add('hidden');
+                    }
+                });
+            });
+        });
+
     });
     </script>
 </body>
